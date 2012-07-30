@@ -1,16 +1,18 @@
-GIT
-  remote: git://github.com/davetron5000/gli.git
-  revision: 2e1ce20615cd92258f702e0b87d4e7b172c4a107
-  tag: v2.0.0.rc6
+PATH
+  remote: .
   specs:
-    gli (2.0.0.rc6)
+    hulk (0.1.0)
+      gli (= 2.0.0.rc6)
 
 GEM
   remote: http://rubygems.org/
   specs:
+    gli (2.0.0.rc6)
+    rake (0.9.2.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  gli!
+  hulk!
+  rake

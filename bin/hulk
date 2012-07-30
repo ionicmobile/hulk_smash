@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+require 'gli'
+require 'hulk'
+
+include GLI::App
+
+program_desc 'Hulking is the act of testing the scalability of your app'
+
+version Hulk.version
+
+config_file '.hulkrc'
+
+desc "Hulk while ssh'd into the server"
+switch :local
+
+desc 'Prints the results from siege'
+switch [:v, :verbose]
+
+desc 'The url to hit with the hulk'
+default_value 'http://localhost'
+arg_name 'http://localhost'
+flag :url
+
+desc 'Duration to run the test'
+default_value '1m'
+arg_name '1m'
+flag :duration
+
+desc 'User to use to ssh into the server'
+default_value 'the user you are currently logged in as'
+arg_name 'yoda'
+flag :ssh_user
+
+desc 'The number of requests to send concurrently'
+default_value '15'
+arg_name '15'
+flag :concurrent_users
+
+desc 'The rate of requests per minute to assert'
+default_value '500000'
+arg_name '500000'
+flag :assert_rpm
+
+command :scale_test do |c|
+  c.action do |global_options, options, args|
+    puts "Running scale tests with args: #{global_options}, #{options}, #{args}"
+  end
+end
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abourt and not call the
+  # chosen command
+  # Use skips_pre before a command to skip this block
+  # on that command only
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+exit run(ARGV)

@@ -6,6 +6,10 @@ Hulk is designed to provide automated scalability testing over http or https.  T
 
 Install [Siege](http://www.joedog.org/siege-home/) on the server you wish to perform the the hulking.
 
+```
+$ brew install siege
+```
+
 Install as a ruby gem, this requires ruby 1.9.3 and will install a binary to your system.
 
 ```
@@ -17,25 +21,36 @@ There are two things that Hulk is designed to test. Server Load and Scalability.
 ## Server Load
 
 ```
-$ hulk load_test http://my_server.com/load_test_this
+$ hulk load_test --url http://my_server.com/load_test_this
 ```
 
 How much load the server can handle, the focus of this test, and what determines pass or fail, is the requests per minute.  Hulk will send as many requests it can at the server, using a configurable number of concurrent requests, and assert the total after one minute.
 
-Specify the rate of requests per second you require
+
+### Assert Requests Per Minute
+
+Specify the rate of requests per minute you require
 
 ```
-hulk load_test --requests_per_second 8000
+hulk load_test --assert_rpm 8000
 ```
 
 
 ## Scalability
 
 ```
-$ hulk scale_test http://my_server.com/scale_test_this
+$ hulk scale_test --url http://my_server.com/scale_test_this
 ```
 
 How quick a specific request takes to respond.  The focus of this test, and what determines pass or fail, is the average response time.  Hulk will send a requests to the specified url for an amount of time and assert the average response time.
+
+### Assert Response Time
+
+in milliseconds
+
+```
+hulk scale_test --assert_res 200
+```
 
 ## General Options
 
@@ -44,7 +59,7 @@ How quick a specific request takes to respond.  The focus of this test, and what
 Defaults to using `http://localhost`
 
 ```
-hulk command https://example.com/some_url
+hulk command --url https://example.com/some_url
 ```
 
 ### Concurrent Requests
@@ -80,3 +95,7 @@ defaults to your current user
 ```
 hulk command --ssh-user capistrano
 ```
+
+### Verbose
+
+Prints out the full report from Siege
