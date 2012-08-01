@@ -36,7 +36,7 @@ smasher = HulkSmash::Smasher.new
 ```
 result = smasher.run_load_test
 result.requests_per_second # => 1327.1 
-result.avg_response_time # => 0.01 
+result.avg_response_time # => 10
 ```
 
 ### Runs scalability test to get idea of response time
@@ -44,7 +44,7 @@ result.avg_response_time # => 0.01
 ```
 smasher.run_load_test
 result.requests_per_second # => 22.13 
-result.avg_response_time # => 0.0 
+result.avg_response_time # => 5
 ```
 
 ## Custom Options
@@ -58,7 +58,7 @@ smasher = HulkSmash::Smasher.new 'http://some_great_host/assets/page_to_test', d
 
 result = smasher.run_load_test
 result.requests_per_second # => 477.38
-result.avg_response_time # => 0.15
+result.avg_response_time # => 150
 ```
 
 # Rspec
