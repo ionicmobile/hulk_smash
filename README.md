@@ -18,84 +18,22 @@ $ gem install hulk
 
 There are two things that Hulk is designed to test. Server Load and Scalability.
 
-## Server Load
+## CLI
+
+You can run your tests from the command line
 
 ```
 $ hulk load_test --url http://my_server.com/load_test_this
 ```
 
-How much load the server can handle, the focus of this test, and what determines pass or fail, is the requests per minute.  Hulk will send as many requests it can at the server, using a configurable number of concurrent requests, and assert the total after one minute.
+view [using the CLI](https://github.com/ionicmobile/hulk/wiki/Using-the-CLI) for more info
 
+## Ruby API
 
-### Assert Requests Per Minute
-
-Specify the rate of requests per minute you require
-
-```
-hulk load_test --assert_rpm 8000
-```
-
-
-## Scalability
+You can use hulk in your Ruby API to create more custom test suites.
 
 ```
-$ hulk scale_test --url http://my_server.com/scale_test_this
+yet to be defined
 ```
 
-How quick a specific request takes to respond.  The focus of this test, and what determines pass or fail, is the average response time.  Hulk will send a requests to the specified url for an amount of time and assert the average response time.
-
-### Assert Response Time
-
-in milliseconds
-
-```
-hulk scale_test --assert_res 200
-```
-
-## General Options
-
-### Url
-
-Defaults to using `http://localhost`
-
-```
-hulk command --url https://example.com/some_url
-```
-
-### Concurrent Requests
-
-Defaults to 15
-
-```
-hulk command --concurrent_users 100
-```
-
-### Time to run
-
-Defaults to 1 minute
-
-```
-hulk command --duration 10s
-```
-
-Can be any of the commands that [Siege](http://www.joedog.org/siege-home/) accepts.
-
-### Local
-
-Not enabled by default.  When enabled, hulk will ssh into the server you are hulking and will run the tests directly on the server.  The benifit is more accurate, and consistent results.
-
-```
-hulk command --local
-```
-
-### SSH Options
-
-defaults to your current user
-
-```
-hulk command --ssh-user capistrano
-```
-
-### Verbose
-
-Prints out the full report from Siege
+view [using the ruby api in your code](https://github.com/ionicmobile/hulk/wiki/Using-the-ruby-api-in-your-code) for more info
