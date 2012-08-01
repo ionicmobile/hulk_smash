@@ -13,7 +13,7 @@ describe Hulk::Smasher, 'with default options:' do
 
   describe "Running a load test" do
     it 'uses siege to run a load test against the given url' do
-      siege_command = "siege -t5s -b http://localhost > #{siege_results_file} 2>&1"
+      siege_command = "siege -b -t5s -c15 http://localhost > #{siege_results_file} 2>&1"
       subject.should_receive(:`).with(siege_command)
 
       subject.run_load_test
@@ -26,7 +26,7 @@ describe Hulk::Smasher, 'with default options:' do
 
   describe "Running a load test" do
     it 'uses siege to run a scalability test against the given url' do
-      siege_command = "siege -t5s http://localhost > #{siege_results_file} 2>&1"
+      siege_command = "siege -t5s -c15 http://localhost > #{siege_results_file} 2>&1"
       subject.should_receive(:`).with(siege_command)
 
       subject.run_scalability_test
@@ -41,9 +41,10 @@ describe Hulk::Smasher, 'with default options:' do
 end
 
 describe Hulk::Smasher, 'with custom options:' do
-  subject { described_class.new url, duration: duration }
+  subject { described_class.new url, duration: duration, concurrent_users: concurrent_users }
 
   let(:duration) { '1s' }
+  let(:concurrent_users) { 100 }
   let(:url) { mock 'url to smash' }
   let(:hulk_result) { mock 'parsed siege results used by hulk' }
   let(:siege_results_file) { File.expand_path('../../../../log/results.log', __FILE__) }
@@ -57,7 +58,7 @@ describe Hulk::Smasher, 'with custom options:' do
 
   describe "Running a load test" do
     it 'uses siege to run a load test against the given url' do
-      siege_command = "siege -t1s -b #{url} > #{siege_results_file} 2>&1"
+      siege_command = "siege -b -t#{duration} -c#{concurrent_users} #{url} > #{siege_results_file} 2>&1"
       subject.should_receive(:`).with(siege_command)
 
       subject.run_load_test
@@ -70,7 +71,7 @@ describe Hulk::Smasher, 'with custom options:' do
 
   describe "Running a load test" do
     it 'uses siege to run a scalability test against the given url' do
-      siege_command = "siege -t1s #{url} > #{siege_results_file} 2>&1"
+      siege_command = "siege -t#{duration} -c#{concurrent_users} #{url} > #{siege_results_file} 2>&1"
       subject.should_receive(:`).with(siege_command)
 
       subject.run_scalability_test

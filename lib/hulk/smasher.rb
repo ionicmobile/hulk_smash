@@ -3,27 +3,23 @@ require 'stringio'
 
 module Hulk
   class Smasher
-    attr_reader :url, :duration
+    attr_reader :url, :duration, :concurrent_users
 
     def initialize(url='http://localhost', options={})
-      options = default_options.merge(options)
-      @duration = options[:duration]
+      @duration = options[:duration]||'5s'
+      @concurrent_users = options[:concurrent_users]||15
       @url = url
     end
 
     def run_load_test
-      execute_siege_command "siege -t#{duration} -b #{url}"
+      execute_siege_command "siege -b -t#{duration} -c#{concurrent_users} #{url}"
     end
 
     def run_scalability_test
-      execute_siege_command "siege -t#{duration} #{url}"
+      execute_siege_command "siege -t#{duration} -c#{concurrent_users} #{url}"
     end
 
     private
-
-    def default_options
-      { duration: '5s' }
-    end
 
     def execute_siege_command(command)
       `#{command} > #{results_file} 2>&1`
