@@ -18,5 +18,7 @@ lib/hulk.rb
   s.bindir = 'bin'
   s.executables << 'hulk'
   s.add_development_dependency('rake')
+  s.add_development_dependency('rspec')
+  s.add_development_dependency('guard-rspec')
   s.add_runtime_dependency('gli','2.0.0.rc6')
 end
