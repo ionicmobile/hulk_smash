@@ -6,8 +6,8 @@ module Hulk
     attr_reader :url, :duration, :concurrent_users
 
     def initialize(url='http://localhost', options={})
-      @duration = options[:duration]||'5s'
-      @concurrent_users = options[:concurrent_users]||15
+      @duration = options[:duration] || self.class.default_duration
+      @concurrent_users = options[:concurrent_users] || self.class.default_concurrent_users
       @url = url
     end
 
@@ -29,6 +29,14 @@ module Hulk
 
     def results_file
       @results_file ||= File.expand_path('../../../log/results.log', __FILE__)
+    end
+
+    def self.default_duration
+      '5s'
+    end
+
+    def self.default_concurrent_users
+      15
     end
   end
 end

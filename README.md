@@ -1,6 +1,6 @@
 # Hulk
 
-Hulk is designed to provide automated scalability testing over http or https.  The desire is to have Jenkins run a job that runs load and scalability tests, using siege, on a specific server and to assert those results, using Rspec.
+Hulk is a ruby library that provides scalability and load testing, through [siege](http://www.joedog.org/siege-home/).
 
 # How to use
 
@@ -18,22 +18,67 @@ $ gem install hulk
 
 There are two things that Hulk is designed to test. Server Load and Scalability.
 
-## CLI
+## Defaults
 
-You can run your tests from the command line
+* 5 seconds
+* 15 concurrent users
+* http://localhost
 
-```
-$ hulk load_test --url http://my_server.com/load_test_this
-```
-
-view [using the CLI](https://github.com/ionicmobile/hulk/wiki/Using-the-CLI) for more info
-
-## Ruby API
-
-You can use hulk in your Ruby API to create more custom test suites.
+Require the library, and create a new smasher.
 
 ```
-yet to be defined
+require 'hulk'
+smasher = Hulk::Smasher.new
 ```
 
-view [using the ruby api in your code](https://github.com/ionicmobile/hulk/wiki/Using-the-ruby-api-in-your-code) for more info
+### Runs load test to get idea of requests per second
+
+```
+result = smasher.run_load_test
+result.requests_per_second # => 1327.1 
+result.avg_response_time # => 0.01 
+```
+
+### Runs scalability test to get idea of response time
+
+```
+smasher.run_load_test
+result.requests_per_second # => 22.13 
+result.avg_response_time # => 0.0 
+```
+
+## Custom Options
+
+* 1 minute
+* 100 concurrent users
+* http://some_great_host/assets/scale-test.txt
+
+```
+smasher = Hulk::Smasher.new 'http://some_great_host/assets/page_to_test', duration: '1m', concurrent_users: 100
+
+result = smasher.run_load_test
+result.requests_per_second # => 477.38
+result.avg_response_time # => 0.15
+```
+
+# Rspec
+
+Create a test suite that asserts on response times and throughput.  View the [examples](https://github.com/ionicmobile/hulk/tree/master/examples) and [integration specs](https://github.com/ionicmobile/hulk/tree/master/spec/integration) for inspiration
+
+The initial reason for writing this is so I can create a test suite written in ruby that tests http services  notify me when we push a release that makes the services slow.
+
+# Contribute
+
+## Code
+
+* Fork
+* Branch for your topic / issue
+* Make pull request with updated tests
+
+## Documentation
+
+Make the documentation better! I'd like to use [Yardoc](http://yardoc.org)
+
+## Examples
+
+Contribute some examples on how you use this.

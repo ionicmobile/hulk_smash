@@ -2,7 +2,7 @@ require_relative 'validator'
 
 module Hulk
   class Result
-    attr_reader :siege_result, :avg_response_time, :requests_per_second, :validator
+    attr_reader :avg_response_time, :requests_per_second, :validator
 
     def initialize(siege_result)
       @siege_result = siege_result
@@ -19,6 +19,10 @@ module Hulk
     end
 
     private
+
+    def siege_result
+      @siege_result
+    end
 
     def parse_result
       if valid?

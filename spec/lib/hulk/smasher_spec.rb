@@ -1,5 +1,15 @@
 require_relative '../../../lib/hulk/smasher'
 
+describe Hulk::Smasher, 'class methods:' do
+  it 'has a default number of concurrent users' do
+    described_class.default_concurrent_users.should == 15
+  end
+
+  it 'has the default duration' do
+    described_class.default_duration.should == '5s'
+  end
+end
+
 describe Hulk::Smasher, 'with default options:' do
   let(:hulk_result) { mock 'parsed siege results used by hulk' }
   let(:siege_results_file) { File.expand_path('../../../../log/results.log', __FILE__) }
