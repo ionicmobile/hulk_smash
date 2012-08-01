@@ -1,7 +1,7 @@
-require_relative '../../lib/hulk'
+require_relative '../../lib/hulk_smash'
 
 describe "A static file" do
-  subject { Hulk::Smasher.new("http://localhost") }
+  subject { HulkSmash::Smasher.new("http://localhost") }
 
   it "can process at least 1000 requests per second" do
   	result = subject.run_load_test

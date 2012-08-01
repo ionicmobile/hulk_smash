@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hulk (0.1.0)
+    hulk_smash (0.1.0)
 
 GEM
   remote: http://rubygems.org/
@@ -39,7 +39,7 @@ PLATFORMS
 
 DEPENDENCIES
   guard-rspec (~> 0.6.0)
-  hulk!
+  hulk_smash!
   rake (~> 0.9.2)
   rspec (~> 2.8.0)
   yard (~> 0.7.5)

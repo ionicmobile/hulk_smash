@@ -1,7 +1,7 @@
-require 'hulk'
+require 'hulk_smash'
 
 describe "A static file" do
-  subject { Hulk::Smasher.new(url: "http://www.google.com/logos/2012/field_hockey-2012-hp.jpg") }
+  subject { HulkSmash::Smasher.new(url: "http://www.google.com/logos/2012/field_hockey-2012-hp.jpg") }
 
   it "can take a pretty heavy load" do
   	result = subject.run_load_test

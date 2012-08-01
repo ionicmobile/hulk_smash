@@ -1,4 +1,4 @@
-# Hulk
+# Hulk Smash
 
 Hulk is a ruby library that provides scalability and load testing, through [siege](http://www.joedog.org/siege-home/).
 
@@ -13,7 +13,7 @@ $ brew install siege
 Install as a ruby gem, this requires ruby 1.9.3 and will install a binary to your system.
 
 ```
-$ gem install hulk
+$ gem install hulk_smash
 ```
 
 There are two things that Hulk is designed to test. Server Load and Scalability.
@@ -27,8 +27,8 @@ There are two things that Hulk is designed to test. Server Load and Scalability.
 Require the library, and create a new smasher.
 
 ```
-require 'hulk'
-smasher = Hulk::Smasher.new
+require 'hulk_smash'
+smasher = HulkSmash::Smasher.new
 ```
 
 ### Runs load test to get idea of requests per second
@@ -54,7 +54,7 @@ result.avg_response_time # => 0.0
 * http://some_great_host/assets/scale-test.txt
 
 ```
-smasher = Hulk::Smasher.new 'http://some_great_host/assets/page_to_test', duration: '1m', concurrent_users: 100
+smasher = HulkSmash::Smasher.new 'http://some_great_host/assets/page_to_test', duration: '1m', concurrent_users: 100
 
 result = smasher.run_load_test
 result.requests_per_second # => 477.38
@@ -63,7 +63,7 @@ result.avg_response_time # => 0.15
 
 # Rspec
 
-Create a test suite that asserts on response times and throughput.  View the [examples](https://github.com/ionicmobile/hulk/tree/master/examples) and [integration specs](https://github.com/ionicmobile/hulk/tree/master/spec/integration) for inspiration
+Create a test suite that asserts on response times and throughput.  View the [examples](https://github.com/ionicmobile/hulk_smash/tree/master/examples) and [integration specs](https://github.com/ionicmobile/hulk_smash/tree/master/spec/integration) for inspiration
 
 The initial reason for writing this is so I can create a test suite written in ruby that tests http services  notify me when we push a release that makes the services slow.
 

@@ -1,4 +1,4 @@
-module Hulk
+module HulkSmash
   module Version
     def self.major
       0

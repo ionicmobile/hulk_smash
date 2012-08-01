@@ -1,12 +1,12 @@
-require_relative '../../../lib/hulk/result'
+require_relative '../../../lib/hulk_smash/result'
 
-describe Hulk::Result do
+describe HulkSmash::Result do
   subject { described_class.new siege_result }
 
   let(:validator) { mock 'validator' }
 
   before do
-    Hulk::Validator.stub(:new).with(siege_result).and_return(validator)
+    HulkSmash::Validator.stub(:new).with(siege_result).and_return(validator)
   end
 
   context 'when the siege results is a complete and valid result' do
@@ -36,8 +36,8 @@ describe Hulk::Result do
       validator.stub(valid?: true)
     end
 
-    it 'has an average response time' do
-      subject.avg_response_time.should == 0.01
+    it 'has an average response time in milliseconds' do
+      subject.avg_response_time.should == 10
     end
 
     it 'has the rate of requests per second' do

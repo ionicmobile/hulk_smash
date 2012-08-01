@@ -1,7 +1,7 @@
 require_relative 'result'
 require 'stringio'
 
-module Hulk
+module HulkSmash
   class Smasher
     attr_reader :url, :duration, :concurrent_users
 
@@ -24,7 +24,7 @@ module Hulk
     def execute_siege_command(command)
       `#{command} > #{results_file} 2>&1`
       results = File.read(results_file)
-      Hulk::Result.new(results)
+      HulkSmash::Result.new(results)
     end
 
     def results_file

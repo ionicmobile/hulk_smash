@@ -1,6 +1,6 @@
-require_relative '../../../lib/hulk/smasher'
+require_relative '../../../lib/hulk_smash/smasher'
 
-describe Hulk::Smasher, 'class methods:' do
+describe HulkSmash::Smasher, 'class methods:' do
   it 'has a default number of concurrent users' do
     described_class.default_concurrent_users.should == 15
   end
@@ -10,7 +10,7 @@ describe Hulk::Smasher, 'class methods:' do
   end
 end
 
-describe Hulk::Smasher, 'with default options:' do
+describe HulkSmash::Smasher, 'with default options:' do
   let(:hulk_result) { mock 'parsed siege results used by hulk' }
   let(:siege_results_file) { File.expand_path('../../../../log/results.log', __FILE__) }
   let(:siege_results_contents) { mock 'results' }
@@ -18,7 +18,7 @@ describe Hulk::Smasher, 'with default options:' do
   before do
     subject.stub(:`)
     File.stub(:read).with(siege_results_file).and_return(siege_results_contents)
-    Hulk::Result.stub(:new).with(siege_results_contents).and_return(hulk_result)
+    HulkSmash::Result.stub(:new).with(siege_results_contents).and_return(hulk_result)
   end
 
   describe "Running a load test" do
@@ -43,14 +43,14 @@ describe Hulk::Smasher, 'with default options:' do
     end
 
     it 'returns the result of the load test' do
-      Hulk::Result.should_receive(:new).with(siege_results_contents).and_return(hulk_result)
+      HulkSmash::Result.should_receive(:new).with(siege_results_contents).and_return(hulk_result)
 
       subject.run_scalability_test.should == hulk_result
     end
   end
 end
 
-describe Hulk::Smasher, 'with custom options:' do
+describe HulkSmash::Smasher, 'with custom options:' do
   subject { described_class.new url, duration: duration, concurrent_users: concurrent_users }
 
   let(:duration) { '1s' }
@@ -63,7 +63,7 @@ describe Hulk::Smasher, 'with custom options:' do
   before do
     subject.stub(:`)
     File.stub(:read).with(siege_results_file).and_return(siege_results_contents)
-    Hulk::Result.stub(:new).with(siege_results_contents).and_return(hulk_result)
+    HulkSmash::Result.stub(:new).with(siege_results_contents).and_return(hulk_result)
   end
 
   describe "Running a load test" do
@@ -88,7 +88,7 @@ describe Hulk::Smasher, 'with custom options:' do
     end
 
     it 'returns the result of the load test' do
-      Hulk::Result.should_receive(:new).with(siege_results_contents).and_return(hulk_result)
+      HulkSmash::Result.should_receive(:new).with(siege_results_contents).and_return(hulk_result)
 
       subject.run_scalability_test.should == hulk_result
     end

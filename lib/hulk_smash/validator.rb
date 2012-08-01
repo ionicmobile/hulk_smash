@@ -1,4 +1,4 @@
-module Hulk
+module HulkSmash
   class Validator
     attr_reader :reasons_for_failure, :siege_result
 

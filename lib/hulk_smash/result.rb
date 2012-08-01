@@ -1,6 +1,6 @@
 require_relative 'validator'
 
-module Hulk
+module HulkSmash
   class Result
     attr_reader :avg_response_time, :requests_per_second, :validator
 
@@ -33,7 +33,7 @@ module Hulk
 
     def parse_avg_response_time
       regex = /Response time:\s*([\d\.]*) secs/
-      @avg_response_time = regex.match(siege_result)[1].to_f
+      @avg_response_time = regex.match(siege_result)[1].to_f*1000
     end
 
     def parse_requests_per_second

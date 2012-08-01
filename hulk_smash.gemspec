@@ -1,8 +1,8 @@
 # Ensure we require the local version and not one we might have installed already
-require File.join([File.dirname(__FILE__),'lib','hulk','version.rb'])
+require File.join([File.dirname(__FILE__),'lib','hulk_smash','version.rb'])
 spec = Gem::Specification.new do |s| 
-  s.name = 'hulk'
-  s.version = Hulk.version
+  s.name = 'hulk_smash'
+  s.version = HulkSmash.version
   s.author = 'Matt Simpson'
   s.email = 'matt.simpson@asolutions.com'
   s.homepage = 'http://asynchrony.com'
@@ -10,11 +10,11 @@ spec = Gem::Specification.new do |s|
   s.summary = 'Hulking is the act of testing the scalability of your app'
 # Add your other files here if you make them
   s.files = %w(
-lib/hulk/version.rb
-lib/hulk.rb
-lib/hulk/smasher.rb
-lib/hulk/result.rb
-lib/hulk/validator.rb
+lib/hulk_smash/version.rb
+lib/hulk_smash.rb
+lib/hulk_smash/smasher.rb
+lib/hulk_smash/result.rb
+lib/hulk_smash/validator.rb
 log/.gitkeep
   )
   s.require_paths << 'lib'
