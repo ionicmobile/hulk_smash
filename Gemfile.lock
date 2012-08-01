@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hulk (1.0.0)
+    hulk (0.1.0)
 
 GEM
   remote: http://rubygems.org/
