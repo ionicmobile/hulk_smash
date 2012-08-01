@@ -3,6 +3,12 @@ require_relative '../../../lib/hulk/result'
 describe Hulk::Result do
   subject { described_class.new siege_result }
 
+  let(:validator) { mock 'validator' }
+
+  before do
+    Hulk::Validator.stub(:new).with(siege_result).and_return(validator)
+  end
+
   context 'when the siege results is a complete and valid result' do
     let(:siege_result) do 
   %(
@@ -26,6 +32,10 @@ describe Hulk::Result do
   )
     end
 
+    before do
+      validator.stub(valid?: true)
+    end
+
     it 'has an average response time' do
       subject.avg_response_time.should == 0.01
     end
@@ -36,11 +46,11 @@ describe Hulk::Result do
   end
 
   context 'when the siege results is not from siege version 2' do
-    let(:siege_result) do 
-  %(
-  ** SIEGE 1.71
-  jibber jabber
-  )
+    let(:siege_result) { mock 'siege result' }
+    let(:reasons_for_failure) { mock 'reasons for failure' }
+
+    before do
+      validator.stub(valid?: false, reasons_for_failure: reasons_for_failure)
     end
 
     it 'is invalid' do
@@ -48,7 +58,7 @@ describe Hulk::Result do
     end
 
     it 'contains reasons for the failure' do
-      subject.reasons_for_failure.should include("Siege version must be 2.x")
+      subject.reasons_for_failure.should == reasons_for_failure
     end
   end
 end
