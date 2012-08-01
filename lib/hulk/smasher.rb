@@ -1,6 +1,6 @@
-module Hulk
-  require_relative 'result'
+require_relative 'result'
 
+module Hulk
   class Smasher
     attr_reader :url
 
@@ -9,11 +9,13 @@ module Hulk
     end
 
     def run_load_test
-      `siege -b #{url}`
+      siege_result = `siege -t10s -b #{url}`
+      Hulk::Result.new(siege_result)
     end
 
     def run_scalability_test
-
+      siege_result = `siege -t10s #{url}`
+      Hulk::Result.new(siege_result)
     end
   end
 end
