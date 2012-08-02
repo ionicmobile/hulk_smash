@@ -7,6 +7,7 @@ module HulkSmash
 
     def initialize(url='http://localhost', options={})
       @duration = options[:duration] || self.class.default_duration
+      @method = options[:method] ? options[:method].downcase.to_sym : :get
       @concurrent_users = options[:concurrent_users] || self.class.default_concurrent_users
       @url = url
     end
