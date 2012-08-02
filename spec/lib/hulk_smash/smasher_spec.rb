@@ -31,6 +31,7 @@ describe HulkSmash::Smasher, 'with default options:' do
 
     it 'returns the result of the load test' do
       subject.run_load_test.should == hulk_result
+      subject.result.should == hulk_result
     end
   end
 
@@ -46,6 +47,7 @@ describe HulkSmash::Smasher, 'with default options:' do
       HulkSmash::Result.should_receive(:new).with(siege_results_contents).and_return(hulk_result)
 
       subject.run_scalability_test.should == hulk_result
+      subject.result.should == hulk_result
     end
   end
 end
@@ -76,6 +78,7 @@ describe HulkSmash::Smasher, 'with custom options:' do
 
     it 'returns the result of the load test' do
       subject.run_load_test.should == hulk_result
+      subject.result.should == hulk_result
     end
   end
 
@@ -91,6 +94,7 @@ describe HulkSmash::Smasher, 'with custom options:' do
       HulkSmash::Result.should_receive(:new).with(siege_results_contents).and_return(hulk_result)
 
       subject.run_scalability_test.should == hulk_result
+      subject.result.should == hulk_result
     end
   end
 end

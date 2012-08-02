@@ -3,7 +3,7 @@ require 'stringio'
 
 module HulkSmash
   class Smasher
-    attr_reader :url, :duration, :concurrent_users
+    attr_reader :url, :duration, :concurrent_users, :result
 
     def initialize(url='http://localhost', options={})
       @duration = options[:duration] || self.class.default_duration
@@ -12,11 +12,11 @@ module HulkSmash
     end
 
     def run_load_test
-      execute_siege_command "siege -b -t#{duration} -c#{concurrent_users} #{url}"
+      @result = execute_siege_command "siege -b -t#{duration} -c#{concurrent_users} #{url}"
     end
 
     def run_scalability_test
-      execute_siege_command "siege -t#{duration} -c#{concurrent_users} #{url}"
+      @result = execute_siege_command "siege -t#{duration} -c#{concurrent_users} #{url}"
     end
 
     private

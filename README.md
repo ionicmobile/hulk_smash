@@ -34,17 +34,17 @@ smasher = HulkSmash::Smasher.new
 ### Runs load test to get idea of requests per second
 
 ```
-result = smasher.run_load_test
-result.requests_per_second # => 1327.1 
-result.avg_response_time # => 10
+smasher.run_load_test
+smasher.result.requests_per_second # => 1327.1 
+smasher.result.avg_response_time # => 10
 ```
 
 ### Runs scalability test to get idea of response time
 
 ```
 smasher.run_load_test
-result.requests_per_second # => 22.13 
-result.avg_response_time # => 5
+smasher.result.requests_per_second # => 22.13 
+smasher.result.avg_response_time # => 5
 ```
 
 ## Custom Options
