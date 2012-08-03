@@ -4,19 +4,36 @@ describe HulkSmash::Smasher do
   let(:hulk_request) { mock 'hulk request', command: siege_command }
   let(:siege_command) { mock 'siege command' }
   let(:hulk_result) { mock 'hulk result' }
-  let(:siege_result_file) { File.expand_path('../../../../log/results.log', __FILE__) }
+  let(:siege_result_file) { File.expand_path('results.txt', cache_dir) }
+  let(:cache_dir) { File.expand_path('../../../../cache', __FILE__) }
   let(:siege_result) { mock 'raw siege result' }
 
+  before do
+    Dir.stub(:exists?).with(cache_dir).and_return(true)
+  end
+
+  context 'when the cache directory does not exist' do
+    before do
+      Dir.stub(:exists?).with(cache_dir).and_return(false)
+    end
+
+    it 'creates the directory' do
+      Dir.should_receive(:mkdir).with(cache_dir)
+
+      subject
+    end
+  end
+
   context 'with custom values' do
-    subject { described_class.new host, custom_options }
+    subject { described_class.new host, duration: duration, concurrent_users: concurrent_users, data: data, method: 'POST' }
 
     let(:host) { mock 'host' }
     let(:duration) { mock 'duration' }
     let(:concurrent_users) { mock 'concurrent_users' }
-    let(:custom_options) { { duration: duration, concurrent_users: concurrent_users } }
+    let(:data) { mock 'data' }
 
     it 'creates the request using the custom values' do
-      HulkSmash::Request.should_receive(:new).with(host, custom_options).and_return(hulk_request)
+      HulkSmash::Request.should_receive(:new).with(host, data: data, duration: duration, concurrent_users: concurrent_users, method: :post).and_return(hulk_request)
 
       subject
     end
