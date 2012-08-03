@@ -17,7 +17,10 @@ module HulkSmash
 
     def command
       if post?
-        write_to_urls_file
+        write_to_urls_file("#{url} POST #{url_data}")
+        "siege #{cmd_options} -f #{urls_file}"
+      elsif put?
+        write_to_urls_file("#{url} POST _method=put&#{url_data}")
         "siege #{cmd_options} -f #{urls_file}"
       else
         "siege #{cmd_options} #{url}"
@@ -36,6 +39,10 @@ module HulkSmash
       method == :post
     end
 
+    def put?
+      method == :put
+    end
+
     def urls_file
       File.expand_path("urls_file.txt", Smasher.cache_dir)
     end
@@ -46,9 +53,9 @@ module HulkSmash
       File.expand_path("../../../cache", __FILE__)
     end
 
-    def write_to_urls_file
+    def write_to_urls_file(content)
       file = File.open(urls_file, "w+")
-      file.write("#{url} POST #{url_data}")
+      file.write(content)
       file.close
     end
   end

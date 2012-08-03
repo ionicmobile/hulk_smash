@@ -2,11 +2,14 @@ require_relative 'validator'
 
 module HulkSmash
   class Result
-    attr_reader :avg_response_time, :requests_per_second, :validator
+    attr_reader :avg_response_time, :requests_per_second, :validator, :availability
 
     def initialize(siege_result)
       @siege_result = siege_result
       @validator = Validator.new siege_result
+      @avg_response_time = 'N/A'
+      @requests_per_second = 'N/A'
+      @availability = 'N/A'
       parse_result
     end
 
@@ -28,7 +31,13 @@ module HulkSmash
       if valid?
         parse_avg_response_time
         parse_requests_per_second
+        parse_availability
       end
+    end
+
+    def parse_availability
+      regex = /Availability:\s*([\d\.]*) %/
+      @availability = regex.match(siege_result)[1] + " %"
     end
 
     def parse_avg_response_time

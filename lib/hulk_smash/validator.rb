@@ -9,6 +9,7 @@ module HulkSmash
 
     def valid?
       validate_version_is_supported
+      validate_successful_siege
       reasons_for_failure.empty?
     end
 
@@ -17,6 +18,14 @@ module HulkSmash
     def version
       regex = /\*\* SIEGE \s*([\d\.]*)$/
       @version ||= regex.match(siege_result)[1].to_f
+    end
+
+    def unsuccessful_siege?
+      siege_result.include?('error') && !siege_result.include?('Shortest transaction')
+    end
+
+    def validate_successful_siege
+      @reasons_for_failure << "Unable to connect" if unsuccessful_siege?
     end
 
     def validate_version_is_supported

@@ -43,6 +43,10 @@ describe HulkSmash::Result do
     it 'has the rate of requests per second' do
       subject.requests_per_second.should == 1326.99
     end
+
+    it 'has the availability' do
+      subject.availability.should == '100.00 %'
+    end
   end
 
   context 'when the siege results is not from siege version 2' do
@@ -55,6 +59,12 @@ describe HulkSmash::Result do
 
     it 'is invalid' do
       subject.should_not be_valid
+    end
+
+    it "contains N/A for the data fields" do
+      subject.avg_response_time.should == "N/A"
+      subject.requests_per_second.should == "N/A"
+      subject.availability.should == "N/A"
     end
 
     it 'contains reasons for the failure' do

@@ -43,7 +43,7 @@ describe HulkSmash::Request do
     let(:urls_file_object) { mock 'ruby file object for urls' }
 
     before do
-      UrlDataConverter.stub(:from_hash).with(data).and_return(url_encoded_data)
+      HulkSmash::UrlDataConverter.stub(:from_hash).with(data).and_return(url_encoded_data)
       HulkSmash::Smasher.stub(:cache_dir => cache_dir)
       File.stub(:open).with(urls_file, 'w+').and_return(urls_file_object)
       urls_file_object.stub(write: nil, close: nil)
@@ -69,5 +69,42 @@ describe HulkSmash::Request do
       subject.command.should == "siege -t5s -f #{urls_file}"
     end
   end
+
+  describe 'when it is a PUT request' do
+    subject { described_class.new host, method: :put, data: data }
+
+    let(:data) { mock 'data' }
+    let(:url_encoded_data) { mock 'url encoded data' }
+    let(:urls_file) { File.expand_path("urls_file.txt", cache_dir) }
+    let(:cache_dir) { mock 'cache dir' }
+    let(:urls_file_object) { mock 'ruby file object for urls' }
+
+    before do
+      HulkSmash::UrlDataConverter.stub(:from_hash).with(data).and_return(url_encoded_data)
+      HulkSmash::Smasher.stub(:cache_dir => cache_dir)
+      File.stub(:open).with(urls_file, 'w+').and_return(urls_file_object)
+      urls_file_object.stub(write: nil, close: nil)
+    end
+
+    it 'stores the request into a file for siege' do
+      expected_url = "#{host} POST _method=put&#{url_encoded_data}"
+
+      urls_file_object.should_receive(:write).with(expected_url)
+      urls_file_object.should_receive(:close)
+
+      subject.command
+    end
+
+    it 'uses the urls file in the siege command' do
+      subject.command.should == "siege  -f #{urls_file}"
+    end
+
+    
+    it 'can be given multiple options' do
+      subject.duration = '5s'
+  
+      subject.command.should == "siege -t5s -f #{urls_file}"
+    end
+  end  
 end
 
