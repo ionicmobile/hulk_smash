@@ -16,7 +16,7 @@ describe HulkSmash::Smasher do
     let(:custom_options) { { duration: duration, concurrent_users: concurrent_users } }
 
     it 'creates the request using the custom values' do
-      HulkSmash::GetRequest.should_receive(:new).with(host, custom_options).and_return(hulk_request)
+      HulkSmash::Request.should_receive(:new).with(host, custom_options).and_return(hulk_request)
 
       subject
     end
@@ -24,7 +24,7 @@ describe HulkSmash::Smasher do
 
   describe 'with default options' do
     before do
-      HulkSmash::GetRequest.stub(:new).with('http://localhost', duration: '5s', concurrent_users: 15).and_return(hulk_request)
+      HulkSmash::Request.stub(:new).with('http://localhost', duration: '5s', concurrent_users: 15).and_return(hulk_request)
       HulkSmash::Result.stub(:new).with(siege_result).and_return(hulk_result)
       subject.stub(:`)
       File.stub(:read).with(siege_result_file).and_return(siege_result)

@@ -1,6 +1,6 @@
-require_relative '../../../lib/hulk_smash/get_request'
+require_relative '../../../lib/hulk_smash/request'
 
-describe HulkSmash::GetRequest do
+describe HulkSmash::Request do
   subject { described_class.new host }
 
   let(:host) { mock 'host' }

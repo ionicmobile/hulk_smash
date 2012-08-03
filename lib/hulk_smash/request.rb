@@ -1,5 +1,5 @@
 module HulkSmash
-  class GetRequest
+  class Request
     attr_reader :url, :concurrent_users, :duration
     attr_accessor :benchmark
 

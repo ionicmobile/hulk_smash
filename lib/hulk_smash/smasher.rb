@@ -1,6 +1,5 @@
 require_relative 'result'
-require_relative 'get_request'
-require 'stringio'
+require_relative 'request'
 
 module HulkSmash
   class Smasher
@@ -8,7 +7,7 @@ module HulkSmash
 
     def initialize(url='http://localhost', options={})
       options = default_options.merge(options)
-      @request = GetRequest.new url, options
+      @request = Request.new url, options
     end
 
     def load_test=(val)
