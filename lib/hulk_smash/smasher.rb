@@ -1,35 +1,32 @@
 require_relative 'result'
+require_relative 'get_request'
 require 'stringio'
 
 module HulkSmash
   class Smasher
-    attr_reader :url, :duration, :concurrent_users, :result
+    attr_reader :request, :result
 
     def initialize(url='http://localhost', options={})
-      @duration = options[:duration] || self.class.default_duration
-      @method = options[:method] ? options[:method].downcase.to_sym : :get
-      @concurrent_users = options[:concurrent_users] || self.class.default_concurrent_users
-      @url = url
+      options = default_options.merge(options)
+      @request = GetRequest.new url, options
+    end
+
+    def load_test=(val)
+      request.benchmark = val
     end
 
     def run_load_test
-      @result = execute_siege_command "siege -b -t#{duration} -c#{concurrent_users} #{url}"
+      self.load_test = true
+      run
     end
 
     def run_scalability_test
-      @result = execute_siege_command "siege -t#{duration} -c#{concurrent_users} #{url}"
+      run
     end
 
-    private
-
-    def execute_siege_command(command)
-      `#{command} > #{results_file} 2>&1`
-      results = File.read(results_file)
-      HulkSmash::Result.new(results)
-    end
-
-    def results_file
-      @results_file ||= File.expand_path('../../../log/results.log', __FILE__)
+    def run
+      `#{request.command} > #{results_file} 2>&1`
+      @result = HulkSmash::Result.new(results_file_contents)
     end
 
     def self.default_duration
@@ -38,6 +35,20 @@ module HulkSmash
 
     def self.default_concurrent_users
       15
+    end
+
+    private
+
+    def default_options
+      { duration: '5s', concurrent_users: 15 }
+    end
+
+    def results_file
+      @results_file ||= File.expand_path('../../../log/results.log', __FILE__)
+    end
+
+    def results_file_contents
+      File.read(results_file)
     end
   end
 end
