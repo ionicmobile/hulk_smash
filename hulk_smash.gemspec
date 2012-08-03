@@ -10,12 +10,13 @@ spec = Gem::Specification.new do |s|
   s.summary = 'Hulking is the act of testing the scalability of your app'
 # Add your other files here if you make them
   s.files = %w(
-lib/hulk_smash/version.rb
 lib/hulk_smash.rb
+lib/hulk_smash/version.rb
 lib/hulk_smash/smasher.rb
 lib/hulk_smash/result.rb
 lib/hulk_smash/validator.rb
-log/.gitkeep
+lib/hulk_smash/request.rb
+lib/hulk_smash/url_data_converter.rb
   )
   s.require_paths << 'lib'
   s.add_development_dependency('rake', "~> 0.9.2")
