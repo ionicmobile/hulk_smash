@@ -26,23 +26,31 @@ There are two things that Hulk is designed to test. Server Load and Scalability.
 
 Require the library, and create a new smasher.
 
-```
+```ruby
 require 'hulk_smash'
 smasher = HulkSmash::Smasher.new
+smasher = HulkSmash::Smasher.new 'https://myhost.com/hit_it', duration: '1m', method: :put, data: { foo: 'bar' }
 ```
 
 ### Runs load test to get idea of requests per second
 
-```
+```ruby
 smasher.run_load_test
+# or
+smasher.load_test = true
+smasher.run
+
 smasher.result.requests_per_second # => 1327.1 
 smasher.result.avg_response_time # => 10
 ```
 
 ### Runs scalability test to get idea of response time
 
-```
-smasher.run_load_test
+```ruby
+smasher.run_scalability_test
+# or
+smasher.run
+
 smasher.result.requests_per_second # => 22.13 
 smasher.result.avg_response_time # => 5
 ```
@@ -53,7 +61,7 @@ smasher.result.avg_response_time # => 5
 * 100 concurrent users
 * http://some_great_host/assets/scale-test.txt
 
-```
+```ruby
 smasher = HulkSmash::Smasher.new 'http://some_great_host/assets/page_to_test', duration: '1m', concurrent_users: 100
 
 result = smasher.run_load_test
