@@ -2,7 +2,18 @@ require_relative 'validator'
 
 module HulkSmash
   class Result
-    attr_reader :avg_response_time, :requests_per_second, :validator, :availability
+    attr_reader :number_of_transactions,
+                :availability,
+                :elapsed_time,
+                :avg_response_time,
+                :requests_per_second,
+                :concurrency,
+                :successful_transactions,
+                :failed_transactions,
+                :longest_transaction,
+                :shortest_transaction,
+                :raw,
+                :validator
 
     def initialize(siege_result)
       @siege_result = siege_result
@@ -10,6 +21,7 @@ module HulkSmash
       @avg_response_time = 'N/A'
       @requests_per_second = 'N/A'
       @availability = 'N/A'
+      @raw = 'N/A'
       parse_result
     end
 
@@ -29,15 +41,33 @@ module HulkSmash
 
     def parse_result
       if valid?
+        parse_number_of_transactions
+        parse_availability
+        parse_elapsed_time
         parse_avg_response_time
         parse_requests_per_second
-        parse_availability
+        parse_concurrency
+        parse_successful_transactions
+        parse_failed_transactions
+        parse_longest_transaction
+        parse_shortest_transaction
+        parse_raw
       end
+    end
+
+    def parse_number_of_transactions
+      regex = /Transactions:\s*([\d\.]*) hits/
+      @number_of_transactions = regex.match(siege_result)[1]
     end
 
     def parse_availability
       regex = /Availability:\s*([\d\.]*) %/
-      @availability = regex.match(siege_result)[1] + " %"
+      @availability = regex.match(siege_result)[1]
+    end
+
+    def parse_elapsed_time
+      regex = /Elapsed time:\s*([\d\.]*) secs/
+      @elapsed_time = regex.match(siege_result)[1].to_f*1000
     end
 
     def parse_avg_response_time
@@ -48,6 +78,35 @@ module HulkSmash
     def parse_requests_per_second
       regex = /Transaction rate:\s*([\d\.]*) trans\/sec/
       @requests_per_second = regex.match(siege_result)[1].to_f
+    end
+
+    def parse_concurrency
+      regex = /Concurrency:\s*([\d\.]*)/
+      @concurrency = regex.match(siege_result)[1].to_f
+    end
+
+    def parse_successful_transactions
+      regex = /Successful transactions:\s*([\d\.]*)/
+      @successful_transactions = regex.match(siege_result)[1].to_f
+    end
+
+    def parse_failed_transactions
+      regex = /Failed transactions:\s*([\d\.]*)/
+      @failed_transactions = regex.match(siege_result)[1].to_f
+    end
+
+    def parse_longest_transaction
+      regex = /Longest transaction:\s*([\d\.]*)/
+      @longest_transaction = regex.match(siege_result)[1].to_f*1000
+    end
+
+    def parse_shortest_transaction
+      regex = /Shortest transaction:\s*([\d\.]*)/
+      @shortest_transaction = regex.match(siege_result)[1].to_f*1000
+    end
+
+    def parse_raw
+      @raw = siege_result
     end
   end
 end
