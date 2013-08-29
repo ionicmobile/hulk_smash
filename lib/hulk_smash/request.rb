@@ -3,7 +3,7 @@ require_relative 'url_data_converter'
 
 module HulkSmash
   class Request
-    attr_reader :url, :concurrent_users, :method, :url_data
+    attr_reader :url, :concurrent_users, :method, :url_data, :header
     attr_accessor :benchmark, :duration
 
     def initialize(url, options={})
@@ -13,6 +13,7 @@ module HulkSmash
       @method = options[:method] || :get
       @url_data = UrlDataConverter.from_hash(options[:data]) if options[:data]
       self.benchmark = options[:benchmark]
+      @header = options[:header]
     end
 
     def command
@@ -32,6 +33,7 @@ module HulkSmash
       ary << '-b' if benchmark
       ary << "-c#{concurrent_users}" if concurrent_users
       ary << "-t#{duration}" if duration
+      ary << "--header=\"#{header}\"" if header
       ary.join(" ")
     end
 
