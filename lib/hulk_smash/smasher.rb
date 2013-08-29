@@ -30,6 +30,7 @@ module HulkSmash
     end
 
     def run
+      puts "Running... #{request.command}"
       `#{request.command} > #{self.class.results_file} 2>&1`
       @result = HulkSmash::Result.new(self.class.results_file_contents)
     end
@@ -51,7 +52,7 @@ module HulkSmash
     end
 
     def self.results_file_contents
-      File.read(results_file) 
+      File.read(results_file)
     end
 
     private

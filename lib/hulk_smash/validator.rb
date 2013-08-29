@@ -29,7 +29,7 @@ module HulkSmash
     end
 
     def validate_version_is_supported
-      @reasons_for_failure << "Siege version must be 2.x" if version < 2 || version >= 3
+      @reasons_for_failure << "Siege version must be 3.x" if version < 3 || version >= 4
     end
   end
 end
