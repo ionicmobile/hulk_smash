@@ -21,6 +21,6 @@ lib/hulk_smash/url_data_converter.rb
   s.require_paths << 'lib'
   s.add_development_dependency('rake', "~> 0.9.2")
   s.add_development_dependency('rspec', "~> 2.8.0")
-  s.add_development_dependency "yard", "~> 0.7.5"
+  s.add_development_dependency "yard", "~> 0.9.20"
   s.add_development_dependency('guard-rspec', "~> 0.6.0")
 end
